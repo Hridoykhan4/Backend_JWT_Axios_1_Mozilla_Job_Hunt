@@ -1,8 +1,12 @@
 import Lottie from "lottie-react";
 import registerAnime from "../../assets/Lottie/registerLottie.json";
 import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
+import Swal from "sweetalert2";
+
 const Register = () => {
-  const { createUser } = useAuth();
+  const { createUser, setUser } = useAuth();
+  const [error, setError] = useState("");
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -10,58 +14,122 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    const isValid = () => {
-      if (!/^.{6,}$/.test(password)) {
-        return alert(`Pass must be more than 6 characters`);
-      }
+    // Simple validation
+    if (password.length < 6) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password must be at least 6 characters long",
+        timer: 2500,
+        showConfirmButton: false,
+      });
+    }
+    if (!/[A-Z]/.test(password)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password must include at least one uppercase letter",
+        timer: 2500,
+        showConfirmButton: false,
+      });
+    }
+    if (!/\d/.test(password)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password must include at least one digit",
+        timer: 2500,
+        showConfirmButton: false,
+      });
+    }
 
-      if (!/[A-Z]/.test(password)) {
-        return alert(`Password should contain at least one uppercase letter`);
-      }
-
-      if (!/\d/.test(password)) {
-        return alert(`Password should contain a digit`);
-      }
-    };
-
-    isValid();
+    // Clear previous error (optional)
+    setError("");
 
     createUser(email, password)
       .then((res) => {
-        console.log(res?.user);
+        setUser(res.user);
+        form.reset();
+        Swal.fire({
+          icon: "success",
+          title: "Registered!",
+          text: "Your account has been created successfully.",
+          timer: 2500,
+          showConfirmButton: false,
+        });
       })
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: "Registration Failed",
+          text: err.message,
+        });
       });
   };
 
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="text-center lg:text-left max-w-96">
-          <Lottie animationData={registerAnime}></Lottie>
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-purple-50 to-pink-100">
+      <div className="max-w-6xl w-full flex flex-col lg:flex-row items-center gap-8 bg-white/60 backdrop-blur-md shadow-2xl rounded-3xl p-6 sm:p-10 border border-pink-100">
+        {/* Lottie Animation */}
+        <div className="w-full lg:w-1/2">
+          <Lottie animationData={registerAnime} loop />
         </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <form onSubmit={handleRegister} className="card-body">
-            <h1 className="text-5xl font-bold">Register now!</h1>
-            <fieldset className="fieldset">
-              <label className="label">Email</label>
+
+        {/* Register Form */}
+        <div className="w-full lg:w-1/2 bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+          <form onSubmit={handleRegister}>
+            <h1 className="text-3xl font-extrabold text-center text-pink-600 mb-6 relative after:content-[''] after:absolute after:w-16 after:h-1 after:bg-pink-400 after:-bottom-2 after:left-1/2 after:-translate-x-1/2">
+              Register
+            </h1>
+
+            <div className="mb-5">
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 name="email"
-                className="input"
-                placeholder="Email"
+                required
+                placeholder="Enter your email"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
               />
-              <label className="label">Password</label>
+            </div>
+
+            <div className="mb-5">
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
-                className="input"
-                placeholder="Password"
+                required
+                placeholder="Enter your password"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
               />
+            </div>
 
-              <button className="btn btn-neutral mt-4">Register</button>
-            </fieldset>
+            {error && (
+              <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-3 rounded text-red-600 text-sm">
+                ⚠️ {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full py-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition duration-300"
+            >
+              Register
+            </button>
+
+            <p className="mt-6 text-sm text-center text-gray-600">
+              Already have an account?
+              <a
+                href="/signIn"
+                className="ml-1 text-pink-600 underline hover:text-pink-700 transition"
+              >
+                Sign In
+              </a>
+            </p>
           </form>
         </div>
       </div>
