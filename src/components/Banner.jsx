@@ -12,21 +12,25 @@ const Banner = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () =>
+      window.removeEventListener(
+        "reshttps://i.ibb.co/mXD5MNf/facebook.pngize",
+        handleResize
+      );
   }, []);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0.4, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
-      className="hero py-16 px-6 md:px-16  rounded-2xl shadow-2xl overflow-hidden"
+      transition={{ duration: 1.1, ease: "easeOut" }}
+      className="hero py-10 px-6 md:px-12  rounded-2xl shadow-2xl overflow-hidden"
     >
       <div className="hero-content flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">
         {/* Text Section */}
         <div className="flex-1 text-center lg:text-left">
           <h1 className="text-4xl md:text-5xl font-extrabold  leading-tight mb-4">
-            Discover Your Dream{" "}
+            Discover Your Dream
             <motion.span
               animate={{ color: ["#f59e0b", "#a3e635", "#facc15"] }}
               transition={{

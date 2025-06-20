@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import jobIcon from "../../assets/job-logo.png";
 import { FaChevronDown } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -9,10 +10,21 @@ const Navbar = () => {
   const signOutUser = () => {
     logout()
       .then(() => {
-        alert(`Sign Out Successful`);
+        Swal.fire({
+          icon: "success",
+          title: "Signed Out!",
+          text: "You have successfully logged out.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       })
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Sign out failed: ${err.message}`,
+          confirmButtonColor: "#d33",
+        });
       });
   };
 
@@ -35,41 +47,22 @@ const Navbar = () => {
           About <FaChevronDown />
         </NavLink>
       </li>
+      {user && (
+        <>
+          <li>
+            <NavLink className={addActiveFunc} to="/myApplications">
+              My Applications <FaChevronDown />
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
   return (
     <div className="navbar  sticky  max-w-7xl mx-auto px-4">
       {/* Navbar Start */}
-      <div className="navbar-start">
-        <div className="dropdown">
-          <button
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost lg:hidden"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-52"
-          >
-            {links}
-          </ul>
-        </div>
+      <div className="navbar-start w-full lg:w-1/2">
         <Link to="/" className="flex items-center gap-2">
           <img
             className="w-12 h-10 rounded-full"
@@ -104,7 +97,7 @@ const Navbar = () => {
           </button>
         ) : (
           <>
-           {/*  <Link
+            {/*  <Link
               to="/register"
               className="bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-2 rounded-lg transition"
             >
@@ -118,6 +111,34 @@ const Navbar = () => {
             </Link>
           </>
         )}
+        <div className="dropdown dropdown-end">
+          <button
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost lg:hidden"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-700"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-52"
+          >
+            {links}
+          </ul>
+        </div>
       </div>
     </div>
   );

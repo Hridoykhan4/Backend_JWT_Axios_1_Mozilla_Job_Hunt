@@ -6,14 +6,36 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  FacebookAuthProvider,
+  GithubAuthProvider,
+  updateProfile,
 } from "firebase/auth";
 import AuthContext from "./AuthContext";
 import app from "../../firebase/firebase.init";
 
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+const githubProvider = new GithubAuthProvider();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const signInByFacebook = () => {
+    setLoading(true);
+    return signInWithPopup(auth, facebookProvider);
+  };
+
+  const signInByGoogle = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
+  const signInByGithub = () => {
+    setLoading(true);
+    return signInWithPopup(auth, githubProvider);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -35,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
   const createUser = (email, password) => {
     setLoading(true);
-    createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const logout = () => {
@@ -43,8 +65,27 @@ export const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  const updateUserProfile = (userName) => {
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: userName,
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading,  signInUser, createUser, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        signInUser,
+        createUser,
+        logout,
+        signInByGoogle,
+        signInByFacebook,
+        signInByGithub,
+        updateUserProfile,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
