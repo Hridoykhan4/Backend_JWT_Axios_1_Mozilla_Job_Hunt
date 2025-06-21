@@ -14,7 +14,7 @@ const FeaturedJobCard = ({ job }) => {
     requirements,
     company_logo,
     _id
-  } = job;
+  } = job || {};
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-md mx-auto flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">

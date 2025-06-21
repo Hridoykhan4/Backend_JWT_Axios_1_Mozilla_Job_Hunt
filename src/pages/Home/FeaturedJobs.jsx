@@ -6,13 +6,13 @@ const FeaturedJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch(`http://localhost:5000/jobs`)
+    fetch(`http://localhost:5000/jobs?fromFeatured=featureTrue`)
       .then((res) => res.json())
       .then((data) => {
         setJobs(data);
         setLoading(false);
       });
-  }, [jobs]);
+  }, []);
 
   return (
     <div className="py-10 bg-gray-50">
@@ -30,7 +30,7 @@ const FeaturedJobs = () => {
         {loading ? (
           <Spinner></Spinner>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6">
             {jobs?.map((job) => (
               <FeaturedJobCard key={job?._id} job={job} />
             ))}

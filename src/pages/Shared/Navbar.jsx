@@ -42,16 +42,26 @@ const Navbar = () => {
           Home <FaChevronDown />
         </NavLink>
       </li>
-      <li>
-        <NavLink className={addActiveFunc} to="/about">
-          About <FaChevronDown />
-        </NavLink>
-      </li>
       {user && (
         <>
           <li>
+            <NavLink className={addActiveFunc} to="/myPostedJobs">
+              My Posted Jobs <FaChevronDown />
+            </NavLink>
+          </li>
+          <li>
             <NavLink className={addActiveFunc} to="/myApplications">
               My Applications <FaChevronDown />
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className={addActiveFunc} to="/addJob">
+              Add a Job <FaChevronDown />
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className={addActiveFunc} to="/allJobs">
+              All Jobs <FaChevronDown />
             </NavLink>
           </li>
         </>

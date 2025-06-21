@@ -7,10 +7,16 @@ import JobDetails from "../pages/JobDetails.jsx/JobDetails";
 import PrivateRoute from "./PrivateRoute";
 import JobApply from "../pages/JobApply/JobApply";
 import MyApplications from "../pages/MyApplications/MyApplications";
+import AddJob from "../pages/AddJob/AddJob";
+import MyPostedJobs from "../pages/MyPostedJobs/MyPostedJobs";
+import AllJobs from "../pages/AllJobs/AllJobs";
+import ErrorPage from "../components/ErrorPage";
+import ViewApplications from "../pages/ViewApplications/ViewApplications";
 const Router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -32,7 +38,30 @@ const Router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-
+      {
+        path: "/addJob",
+        element: (
+          <PrivateRoute>
+            <AddJob></AddJob>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/viewApplications/:job_id",
+        element: (
+          <PrivateRoute>
+            <ViewApplications></ViewApplications>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/myPostedJobs",
+        element: (
+          <PrivateRoute>
+            <MyPostedJobs></MyPostedJobs>
+          </PrivateRoute>
+        ),
+      },
       {
         path: "/myApplications",
         element: (
@@ -41,6 +70,12 @@ const Router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/allJobs",
+        element: <AllJobs></AllJobs>,
+        loader: () => fetch(`http://localhost:5000/jobs?allJobs=all`),
+      },
+
       {
         path: "/jobs/:id",
         element: (
