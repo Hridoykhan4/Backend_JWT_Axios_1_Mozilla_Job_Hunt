@@ -7,7 +7,6 @@ import useScrollTo from "../../hooks/useScrollTo";
 import Swal from "sweetalert2";
 import SocialLogin from "../Shared/SocialLogin";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
 const SignIn = () => {
   const { signInUser } = useAuth();
   const [error, setError] = useState("");

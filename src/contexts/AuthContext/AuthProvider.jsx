@@ -14,6 +14,7 @@ import {
 } from "firebase/auth";
 import AuthContext from "./AuthContext";
 import app from "../../firebase/firebase.init";
+import axios from "axios";
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -40,11 +41,30 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
 
-      return () => {
-        unsubscribe();
-      };
+      if (currentUser?.email) {
+        const user = { email: currentUser?.email };
+
+        axios
+          .post(`http://localhost:5000/jwt`, user, { withCredentials: true })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => console.log(err))
+          .finally(() => {
+            setLoading(false); // ✅ clear loading here too
+          });
+      } else {
+        axios
+          .post("http://localhost:5000/logout", {}, { withCredentials: true })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => console.log(err))
+          .finally(() => {
+            setLoading(false); // ✅ also here
+          });
+      }
     });
 
     return () => unsubscribe();

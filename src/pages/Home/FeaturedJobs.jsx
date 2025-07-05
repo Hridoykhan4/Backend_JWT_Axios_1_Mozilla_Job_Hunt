@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FeaturedJobCard from "./FeaturedJobCard";
 import Spinner from "../../components/Spinner";
+import { Link } from "react-router-dom";
 
 const FeaturedJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -28,13 +29,25 @@ const FeaturedJobs = () => {
         {/* Job Grid */}
 
         {loading ? (
-          <Spinner></Spinner>
+          <Spinner />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6">
-            {jobs?.map((job) => (
-              <FeaturedJobCard key={job?._id} job={job} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobs?.map((job) => (
+                <FeaturedJobCard key={job?._id} job={job} />
+              ))}
+            </div>
+
+        
+            <div className="text-center mt-10">
+              <Link
+                to="/allJobs"
+                className="inline-block px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out"
+              >
+                View All Jobs →
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </div>

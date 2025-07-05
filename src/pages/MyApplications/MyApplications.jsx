@@ -3,22 +3,24 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useScrollTo from "../../hooks/useScrollTo";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyApplications = () => {
   const { user } = useAuth();
   const [jobs, setJobs] = useState([]);
+  const axiosSecure = useAxiosSecure();
   useScrollTo();
   // Fetch all job applications for current user
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/appliedData?email=${user.email}`)
+    axiosSecure
+      .get(`/appliedData?email=${user.email}`)
       .then((res) => {
         setJobs(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
-  }, [user.email]);
+  }, [user.email, axiosSecure]);
 
   // Delete application
   const handleDelete = (id) => {

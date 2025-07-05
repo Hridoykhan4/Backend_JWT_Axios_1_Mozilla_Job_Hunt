@@ -4,7 +4,6 @@ import Spinner from "../components/Spinner";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
-
   const { pathname } = useLocation();
 
   if (loading) {
