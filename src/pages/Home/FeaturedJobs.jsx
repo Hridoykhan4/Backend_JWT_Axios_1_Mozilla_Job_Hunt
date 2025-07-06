@@ -7,7 +7,7 @@ const FeaturedJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch(`http://localhost:5000/jobs?fromFeatured=featureTrue`)
+    fetch(`https://job-portal-server-eight-iota.vercel.app/jobs?fromFeatured=featureTrue`)
       .then((res) => res.json())
       .then((data) => {
         setJobs(data);

@@ -41,28 +41,36 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-
       if (currentUser?.email) {
-        const user = { email: currentUser?.email };
-
+        const loggedInUser = { email: currentUser?.email };
         axios
-          .post(`http://localhost:5000/jwt`, user, { withCredentials: true })
+          .post(
+            `https://job-portal-server-eight-iota.vercel.app/jwt`,
+            loggedInUser,
+            {
+              withCredentials: true,
+            }
+          )
           .then((res) => {
             console.log(res.data);
           })
           .catch((err) => console.log(err))
           .finally(() => {
-            setLoading(false); // ✅ clear loading here too
+            setLoading(false);
           });
       } else {
         axios
-          .post("http://localhost:5000/logout", {}, { withCredentials: true })
+          .post(
+            "https://job-portal-server-eight-iota.vercel.app/logout",
+            {},
+            { withCredentials: true }
+          )
           .then((res) => {
             console.log(res.data);
           })
           .catch((err) => console.log(err))
           .finally(() => {
-            setLoading(false); // ✅ also here
+            setLoading(false);
           });
       }
     });

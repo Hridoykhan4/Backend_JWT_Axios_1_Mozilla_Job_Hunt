@@ -12,18 +12,16 @@ const MyApplications = () => {
   useScrollTo();
   // Fetch all job applications for current user
   useEffect(() => {
-    axiosSecure
-      .get(`/appliedData?email=${user.email}`)
-      .then((res) => {
-        setJobs(res.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+   axiosSecure.get(`/appliedData?email=${user?.email}`)
+  .then((res) => {
+    setJobs(res.data)
+  })
+  .catch(console.error);
+
   }, [user.email, axiosSecure]);
 
   // Delete application
-  const handleDelete = (id) => {
+  const handleDelete = (id, jobId) => {
     Swal.fire({
       title: "Are you sure?",
       text: "This will remove your application from the list.",
@@ -35,7 +33,9 @@ const MyApplications = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/job-application/${id}`)
+          .delete(`https://job-portal-server-eight-iota.vercel.app/job-application/${id}`, {
+            data: { jobId: jobId },
+          })
           .then((res) => {
             if (res.data.deletedCount > 0) {
               setJobs(jobs.filter((job) => job._id !== id));
@@ -128,7 +128,7 @@ const MyApplications = () => {
 
                   <td className="px-6 py-4 text-center">
                     <button
-                      onClick={() => handleDelete(job._id)}
+                      onClick={() => handleDelete(job._id, job?.job_id)}
                       className="text-red-600 hover:text-red-800 font-semibold"
                     >
                       Delete
