@@ -72,25 +72,29 @@ const Navbar = () => {
   return (
     <div className="navbar  sticky  max-w-7xl mx-auto px-4">
       {/* Navbar Start */}
-      <div className="navbar-start w-full lg:w-1/2">
+      <div className="navbar-start flex-1 lg:w-1/2">
         <Link to="/" className="flex items-center gap-2">
           <img
             className="w-12 h-10 rounded-full"
             src={jobIcon}
             alt="Job Logo"
           />
-          <span className="text-xl font-bold text-sky-600">Mozilla</span>
-          <span className="text-xl font-semibold text-gray-700">Job Hunt</span>
+          <span className="text-xl hidden sm:flex font-bold text-sky-600">
+            Mozilla
+          </span>
+          <span className="text-xl hidden sm:flex font-semibold text-gray-700">
+            Job Hunt
+          </span>
         </Link>
       </div>
 
       {/* Navbar Center */}
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center ms-auto hidden lg:flex">
         <ul className="menu menu-horizontal gap-4">{links}</ul>
       </div>
 
       {/* Navbar End */}
-      <div className="navbar-end gap-2">
+      <div className="navbar-end  w-fit gap-2">
         <Link
           to="/post-job"
           className="hidden sm:inline-block bg-sky-600 hover:bg-sky-700 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-200"
