@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import FeaturedJobCard from "./FeaturedJobCard";
 import Spinner from "../../components/Spinner";
 import { Link } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const FeaturedJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
-    fetch(`https://job-portal-server-eight-iota.vercel.app/jobs?fromFeatured=featureTrue`)
-      .then((res) => res.json())
+    axiosSecure(`/jobs?fromFeatured=featureTrue`)
       .then((data) => {
-        setJobs(data);
+        setJobs(data.data);
         setLoading(false);
       });
-  }, []);
+  }, [axiosSecure]);
 
   return (
     <div className="py-10 bg-gray-50">
@@ -38,7 +39,6 @@ const FeaturedJobs = () => {
               ))}
             </div>
 
-        
             <div className="text-center mt-10">
               <Link
                 to="/allJobs"

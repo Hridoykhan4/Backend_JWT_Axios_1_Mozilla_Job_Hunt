@@ -79,7 +79,6 @@ const Router = createBrowserRouter([
             <AllJobs></AllJobs>
           </PrivateRoute>
         ),
-        loader: () => fetch(`https://job-portal-server-eight-iota.vercel.app/jobs?allJobs=all`),
       },
 
       {

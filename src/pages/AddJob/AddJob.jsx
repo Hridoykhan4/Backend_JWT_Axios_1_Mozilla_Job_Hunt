@@ -25,7 +25,7 @@ const AddJob = () => {
     responsibilities: "",
     status: "active",
     hr_email: `${user?.email}`,
-    hr_name: "",
+    hr_name: user?.displayName,
   });
 
   const handleChange = (e) => {
@@ -36,16 +36,30 @@ const AddJob = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formattedData = {
-      ...jobData,
+      title: jobData.title,
+      location: jobData.location,
+      jobType: jobData.jobType,
+      category: jobData.category,
+      applicationDeadline: jobData.applicationDeadline,
       salaryRange: {
         min: parseInt(jobData.salaryMin),
         max: parseInt(jobData.salaryMax),
         currency: jobData.currency,
       },
-      requirements: jobData.requirements.split(",").map((r) => r.trim()),
+      description: jobData.description,
+      company: jobData.company,
+      company_logo: jobData.company_logo || "",
+      requirements: jobData.requirements
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
       responsibilities: jobData.responsibilities
         .split(",")
-        .map((r) => r.trim()),
+        .map((item) => item.trim())
+        .filter(Boolean),
+      status: "active",
+      hr_email: user?.email,
+      hr_name: user?.displayName,
     };
 
     axios

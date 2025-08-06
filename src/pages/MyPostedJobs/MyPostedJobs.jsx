@@ -19,12 +19,12 @@ const MyPostedJobs = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axios.get(
-        `https://job-portal-server-eight-iota.vercel.app/jobs?email=${user?.email}`
+        `https://job-portal-server-eight-iota.vercel.app/jobs?email=${user?.email}`,
+        { withCredentials: true }
       );
       return res.data;
     },
   });
-
 
   if (isPending) return <Spinner />;
   if (error) return <ErrorPage />;
