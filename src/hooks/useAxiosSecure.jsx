@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // 1. Create the axios instance outside the hook (singleton)
 const axiosInstance = axios.create({
-  baseURL: `https://job-portal-server-eight-iota.vercel.app`,
+  baseURL: `http://localhost:5000`,
   withCredentials: true,
 });
 

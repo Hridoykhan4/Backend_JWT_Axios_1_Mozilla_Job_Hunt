@@ -12,12 +12,12 @@ const MyApplications = () => {
   useScrollTo();
   // Fetch all job applications for current user
   useEffect(() => {
-   axiosSecure.get(`/appliedData?email=${user?.email}`)
-  .then((res) => {
-    setJobs(res.data)
-  })
-  .catch(console.error);
-
+    axiosSecure
+      .get(`/appliedData?email=${user?.email}`)
+      .then((res) => {
+        setJobs(res.data);
+      })
+      .catch(console.error);
   }, [user.email, axiosSecure]);
 
   // Delete application
@@ -33,7 +33,7 @@ const MyApplications = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://job-portal-server-eight-iota.vercel.app/job-application/${id}`, {
+          .delete(`http://localhost:5000/job-application/${id}`, {
             data: { jobId: jobId },
           })
           .then((res) => {

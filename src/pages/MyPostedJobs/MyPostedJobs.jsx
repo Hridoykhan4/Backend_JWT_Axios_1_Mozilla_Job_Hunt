@@ -19,7 +19,7 @@ const MyPostedJobs = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axios.get(
-        `https://job-portal-server-eight-iota.vercel.app/jobs?email=${user?.email}`,
+        `http://localhost:5000/jobs?email=${user?.email}`,
         { withCredentials: true }
       );
       return res.data;
