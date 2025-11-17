@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import img1 from "../assets/bannerImg/img1.jpg";
@@ -21,16 +22,19 @@ const Banner = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0.4, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.1, ease: "easeOut" }}
+      initial={{ opacity: 0.4, y: 30 }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        transition: { duration: 1.1, ease: "easeOut" },
+      }}
       className="hero py-10 px-6 md:px-12  rounded-2xl shadow-2xl overflow-hidden"
     >
       <div className="hero-content flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">
         {/* Text Section */}
         <div className="flex-1 text-center lg:text-left">
           <h1 className="text-4xl md:text-5xl font-extrabold  leading-tight mb-4">
-            Discover Your Dream
+            Discover Your Dream {" "}
             <motion.span
               animate={{ color: ["#f59e0b", "#a3e635", "#facc15"] }}
               transition={{
@@ -47,9 +51,18 @@ const Banner = () => {
             Handpicked roles tailored to your skills & passions. Let your career
             journey begin with elegance and confidence.
           </p>
-          <button className="btn bg-yellow-400 text-white font-semibold border-none hover:bg-yellow-500 transition-all duration-300">
+          <motion.button
+            animate={{ rotate: 360 }}
+            transition={{
+              repeat: 3,
+              delay: 1,
+              duration: 0.4,
+              ease: "easeInOut",
+            }}
+            className="btn bg-yellow-400 text-white font-semibold border-none hover:bg-yellow-500 transition-all duration-300"
+          >
             Get Started
-          </button>
+          </motion.button>
         </div>
 
         {/* Image Section */}
@@ -60,7 +73,7 @@ const Banner = () => {
             className="w-64 h-64 object-cover rounded-xl shadow-md border-4 border-blue-200"
             animate={
               isMobile
-                ? {} // no animation for mobile
+                ? {} 
                 : { y: [0, -15, 0] }
             }
             transition={

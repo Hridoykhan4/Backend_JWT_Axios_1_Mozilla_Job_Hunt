@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import Spinner from "../../components/Spinner";
 import ErrorPage from "../../components/ErrorPage";
 import useScrollTo from "../../hooks/useScrollTo";
 import { Link } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyPostedJobs = () => {
   useScrollTo();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-
   const {
     isPending,
     error,
@@ -18,9 +18,13 @@ const MyPostedJobs = () => {
     queryKey: ["HrPostedJobs", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axios.get(
-        `http://localhost:5000/jobs?email=${user?.email}`,
-        { withCredentials: true }
+      // const res = await axiosSecure(`/posted-jobs/${user?.email}`);
+      const res = await axiosSecure(
+        `/jobs/applicationsCount?email=${user?.email}`,{
+          headers: {
+            authorization: `Bearer ${user?.accessToken}`
+          }
+        }
       );
       return res.data;
     },
@@ -56,7 +60,7 @@ const MyPostedJobs = () => {
                 <td className="px-6 py-4 text-gray-500 font-mono">{i + 1}</td>
                 <td className="px-6 py-4 font-medium">{job.title}</td>
                 <td className="px-6 py-4 text-center">
-                  {job?.applicationCount || 0}
+                  {job?.totalCount || 0}
                 </td>
                 <td className="px-6 py-4">{job.applicationDeadline}</td>
                 <td>

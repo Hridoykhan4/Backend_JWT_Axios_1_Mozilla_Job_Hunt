@@ -1,27 +1,39 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import FeaturedJobCard from "./FeaturedJobCard";
 import Spinner from "../../components/Spinner";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-
+import { motion } from "framer-motion";
 const FeaturedJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
   useEffect(() => {
-    axiosSecure(`/jobs?fromFeatured=featureTrue`)
-      .then((data) => {
-        setJobs(data.data);
-        setLoading(false);
-      });
+    axiosSecure(`/jobs?fromFeatured=featureTrue`).then((data) => {
+      setJobs(data.data);
+      setLoading(false);
+    });
   }, [axiosSecure]);
 
   return (
-    <div className="py-10 bg-gray-50">
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      viewport={{ once: true }}
+      whileInView={{ opacity: 1, y: 0, transition: { duration: 2, delay: 0.2 } }}
+      className="py-10 bg-gray-50"
+    >
       <div className="max-w-6xl mx-auto px-4">
         {/* Section Heading */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-800">Featured Jobs</h2>
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0, transition: { duration: 1 } }}
+            className="text-3xl font-bold text-gray-800"
+          >
+            Featured Jobs
+          </motion.h2>
           <p className="text-gray-500 mt-2">
             Explore hand-picked opportunities from top companies
           </p>
@@ -50,7 +62,7 @@ const FeaturedJobs = () => {
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

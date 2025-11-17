@@ -63,7 +63,10 @@ const AddJob = () => {
     };
 
     axios
-      .post("http://localhost:5000/jobs", formattedData)
+      .post(
+        "https://job-portal-server-eight-iota.vercel.app/jobs",
+        formattedData
+      )
       .then((res) => {
         if (res.data.insertedId) {
           Swal.fire("Success", "Job posted successfully!", "success");

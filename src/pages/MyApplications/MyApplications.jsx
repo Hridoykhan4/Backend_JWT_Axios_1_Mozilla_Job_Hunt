@@ -4,21 +4,29 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import useScrollTo from "../../hooks/useScrollTo";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosFirebase from "../../hooks/useAxiosFirebase";
 
 const MyApplications = () => {
   const { user } = useAuth();
   const [jobs, setJobs] = useState([]);
   const axiosSecure = useAxiosSecure();
+  const fireAxiosSecure = useAxiosFirebase();
   useScrollTo();
   // Fetch all job applications for current user
   useEffect(() => {
-    axiosSecure
-      .get(`/appliedData?email=${user?.email}`)
+    fireAxiosSecure(`/appliedData?email=${user?.email}`)
+      // axiosSecure
+      //   .get(`/appliedData?email=${user?.email}`, {
+      //     headers: {
+      //       authorization: `Bearer ${user?.accessToken}`
+      //     }
+      //   })
       .then((res) => {
         setJobs(res.data);
       })
       .catch(console.error);
-  }, [user.email, axiosSecure]);
+    // user?.accessToken
+  }, [user.email, axiosSecure, fireAxiosSecure]);
 
   // Delete application
   const handleDelete = (id, jobId) => {
@@ -33,9 +41,12 @@ const MyApplications = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/job-application/${id}`, {
-            data: { jobId: jobId },
-          })
+          .delete(
+            `https://job-portal-server-eight-iota.vercel.app/job-application/${id}`,
+            {
+              data: { jobId: jobId },
+            }
+          )
           .then((res) => {
             if (res.data.deletedCount > 0) {
               setJobs(jobs.filter((job) => job._id !== id));

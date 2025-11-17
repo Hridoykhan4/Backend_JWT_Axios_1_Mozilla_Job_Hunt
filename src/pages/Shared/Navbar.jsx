@@ -29,7 +29,7 @@ const Navbar = () => {
   };
 
   const addActiveFunc = ({ isActive }) =>
-    `relative px-3 py-2 font-medium transition-all duration-200 ${
+    `relative px-1 py-2 font-medium transition-all duration-200 ${
       isActive
         ? "text-sky-600 border-b-2 border-sky-600"
         : "text-gray-700 hover:text-sky-500"
@@ -39,29 +39,29 @@ const Navbar = () => {
     <>
       <li>
         <NavLink className={addActiveFunc} to="/">
-          Home <FaChevronDown />
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink className={addActiveFunc} to="/allJobs">
+          All Jobs
         </NavLink>
       </li>
       {user && (
         <>
           <li>
             <NavLink className={addActiveFunc} to="/myPostedJobs">
-              My Posted Jobs <FaChevronDown />
+              My Posted Jobs
             </NavLink>
           </li>
           <li>
             <NavLink className={addActiveFunc} to="/myApplications">
-              My Applications <FaChevronDown />
+              My Applications
             </NavLink>
           </li>
           <li>
             <NavLink className={addActiveFunc} to="/addJob">
-              Add a Job <FaChevronDown />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className={addActiveFunc} to="/allJobs">
-              All Jobs <FaChevronDown />
+              Add a Job
             </NavLink>
           </li>
         </>
@@ -95,13 +95,6 @@ const Navbar = () => {
 
       {/* Navbar End */}
       <div className="navbar-end  w-fit gap-2">
-        <Link
-          to="/post-job"
-          className="hidden sm:inline-block bg-sky-600 hover:bg-sky-700 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-200"
-        >
-          Job Post
-        </Link>
-
         {user ? (
           <button
             onClick={signOutUser}
@@ -111,12 +104,12 @@ const Navbar = () => {
           </button>
         ) : (
           <>
-            {/*  <Link
+             <Link
               to="/register"
               className="bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-2 rounded-lg transition"
             >
               Register
-            </Link> */}
+            </Link>
             <Link
               to="/signIn"
               className="bg-gray-800 hover:bg-gray-900 text-white font-medium px-4 py-2 rounded-lg transition"

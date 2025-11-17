@@ -17,9 +17,12 @@ const ViewApplications = () => {
     setApplicants(updatedApplicants);
 
     try {
-      await axios.patch(`http://localhost:5000/job-applications/${id}`, {
-        status: newStatus,
-      });
+      await axios.patch(
+        `https://job-portal-server-eight-iota.vercel.app/job-applications/${id}`,
+        {
+          status: newStatus,
+        }
+      );
 
       Swal.fire({
         icon: "success",

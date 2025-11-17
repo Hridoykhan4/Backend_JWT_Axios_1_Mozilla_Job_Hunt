@@ -36,7 +36,7 @@ const JobApply = () => {
     // Check whether the same job applied by the user
     axios
       .get(
-        `http://localhost:5000/applications/check?id=${id}&email=${user?.email}`
+        `https://job-portal-server-eight-iota.vercel.app/applications/check?id=${id}&email=${user?.email}`
       )
       .then((res) => {
         if (res.data.exists) {
@@ -50,7 +50,10 @@ const JobApply = () => {
           return;
         } else {
           axios
-            .post("http://localhost:5000/job-applications", applicationData)
+            .post(
+              "https://job-portal-server-eight-iota.vercel.app/job-applications",
+              applicationData
+            )
             .then((res) => {
               if (res.data.insertedId) {
                 Swal.fire({
